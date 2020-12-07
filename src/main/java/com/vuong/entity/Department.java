@@ -63,4 +63,9 @@ public class Department {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Department{" + "depId=" + depId + ", depName=" + depName + ", depLoc=" + depLoc +'}';
+    }
+
 }

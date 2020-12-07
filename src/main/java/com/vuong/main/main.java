@@ -6,8 +6,12 @@
 package com.vuong.main;
 
 import com.vuong.config.SpringConfig;
+import com.vuong.customizeObject.DepartmentCount;
+import com.vuong.customizeObject.DepartmentCount2;
+import com.vuong.customizeObject.EmployeeCount;
 import com.vuong.entity.Department;
 import com.vuong.entity.Employee;
+import com.vuong.repository.DepartmentRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,32 +25,24 @@ public class main {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(SpringConfig.class);
-        HRService hRService = (HRService) appContext.getBean("HRServiceImpl");
-//        saveOneTime(hRService);
-//        hRService.initData();
-deleteOneDeployment(hRService);
-
-//        saveOneTime(hRService);
-//        List<Employee> employees = hRService.getEmployeesByLocation("tang 13");
-//
-//        for (Employee e : employees) {
-//            System.out.println(e);
-//        }
-//        List<Department> departments = hRService.getDepartmentsHasEmplGreaterThan(3);
-//        for (Department d : departments) {
-//            System.out.println(d);
-//        }
-// TÌM TẤT CẢ NHỮNG PHÒNG BAN CÓ NHÂN VIÊN TÊN LÀ BÌNH
-//        List<Department> departments = hRService.getDepartmentsByNameEmployee("binh");
-//        for (Department d : departments) {
-//            System.out.println(d);
-//        }
-// TÌM TẤT CẢ NHỮNG PHÒNG BAN CÓ NHÂN VIÊN TÊN LÀ BÌNH (HARDCODE)
-//        List<Department> departments = hRService.getDepartmentsByNameHardCode();
-//        for (Department d : departments) {
-//            System.out.println(d);
-//        }
+        DepartmentRepository departmentRepository = (DepartmentRepository) appContext.getBean("departmentRepository");
+        List<DepartmentCount> departmentCountByLoc = departmentRepository.getdepartmentCountByLoc();
+        for (DepartmentCount departmentCount : departmentCountByLoc) {
+            System.out.println(departmentCount.getDepLoc() + ": " + departmentCount.getCount());
+        }
+        DepartmentCount2 departmentCount = departmentRepository.getdepartmentCount();
+        System.out.println("Tong so phong ban la:"  + departmentCount.getCount());
+    
+    
+        List<EmployeeCount> empCountByDep = departmentRepository.getEmpCountByDep();
+        for (EmployeeCount employeeCount : empCountByDep) {
+            System.out.println(employeeCount.getDepartmentName() + ": " + employeeCount.getEmployeeCount());
+        }
     }
+    
+    
+    
+    
 
     public static void saveOneTime(HRService service) {
         // tao 3 empoloees
@@ -69,23 +65,16 @@ deleteOneDeployment(hRService);
         employees.add(emp1);
         employees.add(emp2);
         employees.add(emp3);
-        
+
         // tao mot phong ban
         Department kinhdoanh = new Department();
         kinhdoanh.setDepLoc("tang 13");
         kinhdoanh.setDepName("kinh doanh");
-        
+
         // them danh sach nhn vien vien vao phong moi tao
-        
         kinhdoanh.setEmployees(employees);
 
         service.addDepartment(kinhdoanh);
     }
 
-    public static void deleteOneDeployment(HRService hRService) {
-            hRService.deleteDepartment(2);
-            
-        
-        
-    }
 }
