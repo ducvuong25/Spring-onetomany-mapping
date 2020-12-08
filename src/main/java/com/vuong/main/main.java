@@ -29,6 +29,8 @@ public class main {
         for (DepartmentCountIF departmentCountIF : totalEmplByDep) {
             System.out.println(departmentCountIF.getDepName() + ": " + departmentCountIF.getTotalEmpl());
         }
+        
+        System.out.println("helle world");
     }
     
     
