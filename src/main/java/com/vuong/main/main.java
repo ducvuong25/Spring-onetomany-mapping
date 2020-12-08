@@ -6,12 +6,10 @@
 package com.vuong.main;
 
 import com.vuong.config.SpringConfig;
-import com.vuong.customizeObject.DepartmentCount;
-import com.vuong.customizeObject.DepartmentCount2;
-import com.vuong.customizeObject.EmployeeCount;
+import com.vuong.customizeObject.DepartmentCountIF;
 import com.vuong.entity.Department;
 import com.vuong.entity.Employee;
-import com.vuong.repository.DepartmentRepository;
+import com.vuong.repository.EmployeeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -25,18 +23,11 @@ public class main {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(SpringConfig.class);
-        DepartmentRepository departmentRepository = (DepartmentRepository) appContext.getBean("departmentRepository");
-        List<DepartmentCount> departmentCountByLoc = departmentRepository.getdepartmentCountByLoc();
-        for (DepartmentCount departmentCount : departmentCountByLoc) {
-            System.out.println(departmentCount.getDepLoc() + ": " + departmentCount.getCount());
-        }
-        DepartmentCount2 departmentCount = departmentRepository.getdepartmentCount();
-        System.out.println("Tong so phong ban la:"  + departmentCount.getCount());
-    
-    
-        List<EmployeeCount> empCountByDep = departmentRepository.getEmpCountByDep();
-        for (EmployeeCount employeeCount : empCountByDep) {
-            System.out.println(employeeCount.getDepartmentName() + ": " + employeeCount.getEmployeeCount());
+        EmployeeRepository employeeRepository = (EmployeeRepository) appContext.getBean("employeeRepository");
+        
+        List<DepartmentCountIF> totalEmplByDep = employeeRepository.getTotalEmplByDep();
+        for (DepartmentCountIF departmentCountIF : totalEmplByDep) {
+            System.out.println(departmentCountIF.getDepName() + ": " + departmentCountIF.getTotalEmpl());
         }
     }
     

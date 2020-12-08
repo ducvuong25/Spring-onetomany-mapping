@@ -5,7 +5,7 @@
  */
 package com.vuong.repository;
 
-import com.vuong.customizeObject.EmployeeCount;
+import com.vuong.customizeObject.DepartmentCountIF;
 import com.vuong.entity.Employee;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +22,8 @@ public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
 //    List<Employee> findEmployeesByDepartment(String location);
     @Query("select E from Employee E join E.department D where D.depLoc = ?1 order by E.id ASC")
     List<Employee> findEmployeesBylocation(String floor);
+
+    @Query("select D.depName as depName, count(E) as totalEmpl from Department D join D.employees E group by D.depName")
+    List<DepartmentCountIF> getTotalEmplByDep();
 
 }
